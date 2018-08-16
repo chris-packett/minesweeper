@@ -26,3 +26,37 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30em;
+}
+
+.row {
+  height: 3em;
+  display: flex;
+}
+
+.col {
+  border: 1px solid black;
+  width: 3em;
+  height: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.col:hover {
+  background-color: #D9D9D9;
+}
+
+.title {
+  padding: 1em 0;
+}
+
+.board-border {
+  border: 1px solid black;
+}
