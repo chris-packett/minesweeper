@@ -1,20 +1,59 @@
 import React, { Component } from 'react';
 
+const BASE_URL = 'https://minesweeper-api.herokuapp.com'
+
 class Minesweeper extends Component {
     constructor(props) {
         super(props);
         this.state = {
             game: {
                 board: []
-            }
+            },
+            gameId: ''
         }
     }
 
     componentDidMount() {
-        const baseURL = 'https://minesweeper-api.herokuapp.com'
-        fetch(`${baseURL}/games/`, {
+        fetch(`${BASE_URL}/games/`, {
             method: "POST",
-            body: JSON.stringify({ difficulty: 0 })
+            body: JSON.stringify({
+                difficulty: 0
+            })
+        })
+        .then(resp => resp.json())
+        .then(newGame => {
+            console.log(newGame)
+            this.setState({
+                game: newGame,
+                gameId: newGame.id
+            })
+        })
+    }
+
+    checkBox = (row, col) => {
+        fetch(`${BASE_URL}/games/${this.state.gameId}/check`, {
+            method: "POST",
+            body: JSON.stringify({ 
+                "row": row,
+                "col": col
+            })
+        })
+        .then(resp => resp.json())
+        .then(newGame => {
+            console.log(newGame)
+            this.setState({
+                game: newGame
+            })
+        })
+    }
+
+    flagBox = (row, col) => {
+        fetch(`${BASE_URL}/games/${this.state.gameId}/flag`, {
+            method: "POST",
+            body: JSON.stringify({ 
+                "row": row,
+                "col": col
+            })
         })
         .then(resp => resp.json())
         .then(newGame => {
@@ -29,7 +68,7 @@ class Minesweeper extends Component {
         return (
             <div className='board'>
                 <div className='title'>
-                    Minesweeper Game ID: {this.state.game.id}
+                    Minesweeper Game ID: #{this.state.game.id}
                 </div>
                 <div className='board-border'>
                     {this.state.game.board.map((row, i) => {
@@ -37,7 +76,8 @@ class Minesweeper extends Component {
                             <div key={i} className='row'>
                                 {row.map((col, j) => {
                                     return (
-                                        <span key={j} className='col'>
+                                        <span key={j} className='col' onClick={() => this.checkBox(i, j)} onContextMenu={() => this.flagBox(i, j)}>
+                                            {console.log(this.state.game.board[i][j])}
                                             {this.state.game.board[i][j]}
                                         </span>
                                     )
