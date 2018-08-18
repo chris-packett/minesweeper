@@ -33,6 +33,9 @@ class Minesweeper extends Component {
     checkBox = (row, col) => {
         fetch(`${BASE_URL}/games/${this.state.gameId}/check`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
             body: JSON.stringify({ 
                 "row": row,
                 "col": col
@@ -45,11 +48,15 @@ class Minesweeper extends Component {
                 game: newGame
             })
         })
+        .catch(console.error)
     }
 
     flagBox = (row, col) => {
         fetch(`${BASE_URL}/games/${this.state.gameId}/flag`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
             body: JSON.stringify({ 
                 "row": row,
                 "col": col
