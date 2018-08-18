@@ -66,10 +66,7 @@ class Minesweeper extends Component {
 
     renderCells = (row, col) => {
         if (this.state.game.board[row][col] === " ") {
-            return "unk"
-        }
-        else if (this.state.game.board[row][col] === "_") {
-            return "clear"
+            return "U"
         }
         else {
             return this.state.game.board[row][col]
@@ -88,12 +85,11 @@ class Minesweeper extends Component {
                             <div key={i} className='row'>
                                 {row.map((col, j) => {
                                     return (
-                                        <span key={j} 
+                                        <span 
+                                        key={j} 
                                         className='col' 
                                         onClick={() => this.checkBox(i, j)} 
                                         onContextMenu={() => this.flagBox(i, j)}>
-                                            {/* {console.log(this.state.game.board[i][j])} */}
-                                            {/* {this.state.game.board[i][j]} */}
                                             {this.renderCells(i, j)}
                                         </span>
                                     )
