@@ -31,8 +31,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 30em;
+  justify-content: space-evenly;
+  height: 35em;
 }
 
 .row {
