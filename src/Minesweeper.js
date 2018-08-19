@@ -26,8 +26,7 @@ class Minesweeper extends Component {
         clearInterval(this.timerID)
     }
 
-    componentDidMount() {
-        this.startTimer()
+    startGame() {
         fetch(`${BASE_URL}`, {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -35,19 +34,37 @@ class Minesweeper extends Component {
         })
         .then(resp => resp.json())
         .then(newGame => {
+            console.log(newGame)
             this.setState({
                 game: newGame,
                 gameId: newGame.id
             })
         })
+        .catch(console.error)
+    }
+
+    componentDidMount() {
+        this.startGame()
+        this.startTimer()
     }
 
     changeDifficulty = (e) => {
-        console.log(e.target.value)
-        // set up a dictionary to give easy: 0, medium: 1, and hard: 2
-        this.setState({
-            difficulty: e.target.value
-        })
+        if (e.target.value === 'medium') {
+            console.log("yes, definitely medium")
+            this.setState({
+                difficulty: 1
+            })
+            this.startGame()
+            console.log("I've started a new game!")
+        }
+        else if (e.target.value === 'hard') {
+            console.log("yes, definitely hard")
+            this.setState({
+                difficulty: 2
+            })
+            this.startGame()
+            console.log("I've started a new game!")
+        }
     }
 
     displayGameResult() {
