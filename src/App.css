@@ -27,12 +27,12 @@
   to { transform: rotate(360deg); }
 }
 
-.board {
+.game {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  height: 35em;
+  justify-content: flex-start;
+  height: 50em;
 }
 
 .row {
@@ -60,7 +60,12 @@
   color: #595959;
 }
 
+.timer {
+  padding: 1em 0;
+}
+
 .board-border {
   border: 1px solid black;
   border-radius: .5em;
+  margin: 0 0 1em 0;
 }
