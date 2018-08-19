@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Tile from './Tile'
 
 const BASE_URL = 'https://minesweeper-api.herokuapp.com/games/'
 const START_TIME = Date.now()
@@ -10,7 +11,8 @@ class Minesweeper extends Component {
             game: { board: [] }, 
             gameId: '',
             timer: 0, // in seconds
-            result: ''
+            result: '',
+            difficulty: 0
         }
     }
 
@@ -29,7 +31,7 @@ class Minesweeper extends Component {
         fetch(`${BASE_URL}`, {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=utf-8" },
-            body: JSON.stringify({ difficulty: 0 })
+            body: JSON.stringify({ difficulty: this.state.difficulty })
         })
         .then(resp => resp.json())
         .then(newGame => {
@@ -37,6 +39,14 @@ class Minesweeper extends Component {
                 game: newGame,
                 gameId: newGame.id
             })
+        })
+    }
+
+    changeDifficulty = (e) => {
+        console.log(e.target.value)
+        // set up a dictionary to give easy: 0, medium: 1, and hard: 2
+        this.setState({
+            difficulty: e.target.value
         })
     }
 
@@ -83,26 +93,19 @@ class Minesweeper extends Component {
         })
     }
 
-    renderTiles = (row, col) => {
-        const tile = this.state.game.board[row][col]
-        if (tile === "_") {
-            return "◻️"
-        }
-        else if (tile === "F") {
-            return "🚩"
-        }
-        else if (tile === "*" || tile === "@") {
-            return "💣"
-        }
-        else {
-            return tile
-        }
-    }
-
     render() {
         return (
             <div className='game'>
                 <div className='title'>Minesweeper Game ID: #{this.state.game.id}</div>
+                <div>Choose difficulty: 
+                    <span className='drop-down-difficulty'> 
+                    <select name='difficulty' onChange={this.changeDifficulty}>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    </span>
+                </div>
                 <div className='timer'>It's been {this.state.timer} seconds since you started!</div>
                 <div className='board-border'>
                     {this.state.game.board.map((row, i) => {
@@ -110,11 +113,9 @@ class Minesweeper extends Component {
                             <div key={i} className='row'>
                                 {row.map((col, j) => {
                                     return (
-                                        <span key={j} className='col' 
-                                        onClick={() => this.checkBox(i, j)} 
-                                        onContextMenu={(e) => this.flagBox(e, i, j)}>
-                                            {this.renderTiles(i, j)}
-                                        </span>
+                                        <Tile key={j} 
+                                        game={this.state.game} row={i} col={j}
+                                        checkBox={this.checkBox} flagBox={this.flagBox}/>
                                     )
                                 })}
                             </div>
