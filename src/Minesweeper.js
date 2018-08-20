@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Tile from './Tile'
 
 const BASE_URL = 'https://minesweeper-api.herokuapp.com/games/'
-const START_TIME = Date.now()
+let START_TIME = Date.now()
 
 class Minesweeper extends Component {
     constructor(props) {
@@ -34,7 +34,6 @@ class Minesweeper extends Component {
         })
         .then(resp => resp.json())
         .then(newGame => {
-            console.log(newGame)
             this.setState({
                 game: newGame,
                 gameId: newGame.id
@@ -49,21 +48,26 @@ class Minesweeper extends Component {
     }
 
     changeDifficulty = (e) => {
-        if (e.target.value === 'medium') {
-            console.log("yes, definitely medium")
+        if (e.target.value === 'easy') {
             this.setState({
-                difficulty: 1
-            })
-            this.startGame()
-            console.log("I've started a new game!")
+                difficulty: 0,
+                timer: 0
+            }, this.startGame)
+            START_TIME = new Date()
+        }
+        else if (e.target.value === 'medium') {
+            this.setState({
+                difficulty: 1,
+                timer: 0
+            }, this.startGame)
+            START_TIME = new Date()
         }
         else if (e.target.value === 'hard') {
-            console.log("yes, definitely hard")
             this.setState({
-                difficulty: 2
-            })
-            this.startGame()
-            console.log("I've started a new game!")
+                difficulty: 2,
+                timer: 0
+            }, this.startGame)
+            START_TIME = new Date()
         }
     }
 
