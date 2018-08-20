@@ -36,14 +36,14 @@
 }
 
 .row {
-  height: 3em;
+  height: 2em;
   display: flex;
 }
 
 .col {
   border: 1px solid black;
-  width: 3em;
-  height: 3em;
+  width: 2em;
+  height: 2em;
   display: flex;
   justify-content: center;
   align-items: center;
