@@ -82,8 +82,8 @@ class Minesweeper extends Component {
         }
     }
 
-    checkBox = (row, col) => {
-        fetch(`${BASE_URL}${this.state.gameId}/check`, {
+    boxAction = (action, row, col) => {
+        fetch(`${BASE_URL}${this.state.gameId}/${action}`, {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=utf-8" },
             body: JSON.stringify({ 
@@ -98,20 +98,13 @@ class Minesweeper extends Component {
         })
     }
 
+    checkBox = (row, col) => {
+        this.boxAction('check', row, col)
+    }
+
     flagBox = (e, row, col) => {
         e.preventDefault()
-        fetch(`${BASE_URL}${this.state.gameId}/flag`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            body: JSON.stringify({ 
-                "row": row,
-                "col": col
-            })
-        })
-        .then(resp => resp.json())
-        .then(newGame => {
-            this.setState({ game: newGame })
-        })
+        this.boxAction('flag', row, col)
     }
 
     render() {
