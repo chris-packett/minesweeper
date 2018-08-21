@@ -120,7 +120,7 @@ class Minesweeper extends Component {
                 <div className='title'>Minesweeper Game ID: #{this.state.game.id}</div>
                 <div>Choose difficulty: 
                     <span className='drop-down-difficulty'> 
-                    <select name='difficulty' onChange={this.changeDifficulty}>
+                    <select name='difficulty' onChange={(event) => this.changeDifficulty(event)}>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
