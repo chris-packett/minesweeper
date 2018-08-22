@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Tile from './Tile'
+import ReactModal from 'react-modal'
 
 const BASE_URL = 'https://minesweeper-api.herokuapp.com/games/'
 let START_TIME = Date.now()
+
+ReactModal.setAppElement('#root')
 
 class Minesweeper extends Component {
     constructor(props) {
@@ -12,8 +15,25 @@ class Minesweeper extends Component {
             gameId: '',
             timer: 0, // in seconds
             result: '',
-            difficulty: 0
+            difficulty: 0,
+            showModal: false
         }
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+
+    handleOpenModal () {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    handleCloseModal() {
+        this.setState({
+            showModal: false
+        })
     }
 
     startTimer() {
@@ -74,10 +94,12 @@ class Minesweeper extends Component {
     displayGameResult() {
         if (this.state.game.state === "won") {
             this.setState({ result: `Good job, you won in ${this.state.timer} seconds!` })
+            this.handleOpenModal()
             this.stopTimer()
         }
         else if (this.state.game.state === "lost") {
             this.setState({ result: 'Oh no... you lose!' })
+            this.handleOpenModal()
             this.stopTimer()
         }
     }
@@ -127,9 +149,11 @@ class Minesweeper extends Component {
                             <div key={i} className='row'>
                                 {row.map((col, j) => {
                                     return (
-                                        <Tile key={j} 
-                                        game={this.state.game} row={i} col={j}
-                                        checkBox={this.checkBox} flagBox={this.flagBox}/>
+                                        <Tile 
+                                            key={j} 
+                                            game={this.state.game} row={i} col={j}
+                                            checkBox={this.checkBox} flagBox={this.flagBox}
+                                        />
                                     )
                                 })}
                             </div>
@@ -137,6 +161,22 @@ class Minesweeper extends Component {
                     })}
                 </div>
                 <div>{this.state.result}</div>
+                <ReactModal 
+                    isOpen={this.state.showModal}
+                    contentLabel="Minimal Modal Example"
+                    className="modal"
+                    overlayClassName="overlay"
+                    shouldCloseOnOverlayClick={true}
+                    shouldCloseOnEsc={true}
+                >
+                <div className="modal-image">
+                    <img src='https://media.giphy.com/media/eoxomXXVL2S0E/giphy.gif' alt='funny' />
+                </div>
+                <div className="modal-buttons">
+                    <button>Play Again</button>
+                    <button onClick={this.handleCloseModal}>Close Modal</button>
+                </div>
+                </ReactModal>
             </div>
         );
     }
