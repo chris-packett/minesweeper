@@ -77,8 +77,8 @@
 .modal {
   position: absolute;
   top: 10em;
-  left: 10em;
-  right: 10em; 
+  left: 20em;
+  right: 20em; 
   bottom: 10em;
   display: flex;
   flex-direction: column;
